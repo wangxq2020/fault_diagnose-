@@ -1,0 +1,38 @@
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+# 加载sklearn自带的mnist数据
+digits = datasets.load_digits()
+# 数据集包含1797个手写体数字的图片，图片大小为8*8
+# 数字大小0～9，也就是说有这是个10分类问题
+images = digits.images
+targets = digits.target
+print(("dataset shape is: "), images.shape)
+# 将数据分为训练数据和测试数据（20%）
+X_train,X_test,y_train,y_test = train_test_split(images , targets , test_size=0.2 , random_state=0)
+num_training = 1137
+num_validation = 300
+num_test = y_test.shape[0]
+# 将训练集再分为训练集和验证集
+mask = list(range(num_training, num_training + num_validation))
+X_val = X_train[mask]
+y_val = y_train[mask]
+mask = list(range(num_training))
+X_train = X_train[mask]
+y_train = y_train[mask]
+mask = list(range(num_test))
+X_test = X_test[mask]
+y_test = y_test[mask]
+print("the number of train: ", num_training)
+print("the number of test: ", num_test)
+print("the number of validation: ", num_validation)
+# 将每个数字8*8的像素矩阵转化为64*1的向量
+X_train = X_train.reshape(num_training, -1)
+X_val = X_val.reshape(num_validation, -1)
+X_test = X_test.reshape(num_test, -1)
+print("training data shape: ", X_train.shape)
+print("validation data shape: ", X_val.shape)
+print("test data shape: ", X_test.shape)
+
+————————————————
+版权声明：本文为CSDN博主「奋斗路上的正明君」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_41722370/article/details/83590276
